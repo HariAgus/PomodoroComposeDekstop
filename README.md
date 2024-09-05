@@ -5,3 +5,11 @@
 </p
 
 The project I created is devoted to a course on Udemy with the theme Pomodoro for time management of useful activities.
+
+## Installation
+
+Clone or Download and Open it into Android Studio or other IDE
+```
+    https://github.com/HariAgus/PomodoroComposeDekstop 
+```
+
