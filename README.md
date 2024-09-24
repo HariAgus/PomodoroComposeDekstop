@@ -12,4 +12,9 @@ Clone or Download and Open it into Android Studio or other IDE
 ```
     https://github.com/HariAgus/PomodoroComposeDekstop 
 ```
+## Feature
+
+- Setting the time speed
+- Stop and pause buttons
+- Theme that adapts to the type of pomodoro
 
