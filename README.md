@@ -12,7 +12,12 @@ Clone or Download and Open it into Android Studio or other IDE
 ```
     https://github.com/HariAgus/PomodoroComposeDekstop 
 ```
-## Feature
+
+## Link Tutorial 
+- [Udemy](https://www.udemy.com/course/compose-multiplatform-desktop-membuat-aplikasi-pomodoro/)
+- [Youtube](https://www.youtube.com/watch?v=-LtQibfZms0)
+
+## App Feature 
 
 - Setting the time speed
 - Stop and pause buttons
