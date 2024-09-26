@@ -31,6 +31,9 @@ Clone or Download and Open it into Android Studio or other IDE
 2. Create a new feature or fix a bug in a new branch.
 3. Submit a pull request with a clear description of the changes you're making.
 
+## Todo List
+- [ ] Added long break feature
+
 
 ## License
 
