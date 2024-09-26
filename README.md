@@ -2,7 +2,7 @@
 
 <p align="center">
 <img src="assets/Banner Udemy Compose Desktop.png"/>
-</p
+</p>
 
 The project I created is devoted to a course on Udemy with the theme Pomodoro for time management of useful activities.
 
@@ -22,6 +22,14 @@ Clone or Download and Open it into Android Studio or other IDE
 - Setting the time speed
 - Stop and pause buttons
 - Theme that adapts to the type of pomodoro
+
+
+## Contributions
+    We greatly appreciate contributions from everyone. Here are the ways to contribute
+    
+1. Fork this repository.
+2. Create a new feature or fix a bug in a new branch.
+3. Submit a pull request with a clear description of the changes you're making.
 
 
 ## License
