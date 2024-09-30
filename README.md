@@ -34,6 +34,7 @@ Clone or Download and Open it into Android Studio or other IDE
 ## Todo List
 - [ ] Added long break feature
 - [ ] Implementing a dark theme
+- [ ] Implementing about app
 
 
 ## License
