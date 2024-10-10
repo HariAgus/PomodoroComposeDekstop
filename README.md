@@ -36,6 +36,13 @@ Clone or Download and Open it into Android Studio or other IDE
 - [ ] Implementing a dark theme
 - [ ] Implementing about app and app versions that support mac, windows and linux
 
+## Contributions
+We welcome contributions to this project! If you would like to contribute, please do the following :
+1. Fork this project
+2. Create a feature branch (git checkout -b feature/dark-theme)
+3. Commit changes (git commit -m "Added dark theme feature")
+4. Push yo branch (git push origin feature/dark-theme)
+5. Open pull request
 
 ## License
 
