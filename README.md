@@ -23,14 +23,6 @@ Clone or Download and Open it into Android Studio or other IDE
 - Stop and pause buttons
 - Theme that adapts to the type of pomodoro
 
-
-## Contributions
-    We greatly appreciate contributions from everyone. Here are the ways to contribute
-    
-1. Fork this repository.
-2. Create a new feature or fix a bug in a new branch.
-3. Submit a pull request with a clear description of the changes you're making.
-
 ## Todo List
 - [ ] Added long break feature
 - [ ] Implementing a dark theme
