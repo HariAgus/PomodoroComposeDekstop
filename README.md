@@ -28,6 +28,7 @@ Clone or Download and Open it into Android Studio or other IDE
 - [ ] Implementing a dark theme
 - [ ] Added themed focus music options
 - [ ] Implementing about app and app versions that support mac, windows and linux
+- [ ] Runs on android and ios platforms
 
 ## Contributions
 We welcome contributions to this project! If you would like to contribute, please do the following :
