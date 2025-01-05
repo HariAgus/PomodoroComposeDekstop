@@ -2,6 +2,7 @@ package presentation.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -76,25 +77,27 @@ fun PomodoroContent(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Button(
-            modifier = Modifier.size(45.dp),
+            modifier = Modifier.size(60.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
-                contentColor = pomodoro.buttonColorSecond,
+                containerColor = pomodoro.buttonColorSecond,
             ),
+            contentPadding = PaddingValues(0.dp),
             onClick = { onDialogToggle(!isPlayPomodoro) }
         ) {
             Image(
+                modifier = Modifier.size(18.dp),
                 painter = painterResource(Res.drawable.ic_menu),
                 contentDescription = ""
             )
         }
 
         Button(
-            modifier = Modifier.size(width = 100.dp, height = 72.dp)
+            modifier = Modifier.size(width = 120.dp, height = 80.dp)
                 .padding(horizontal = 14.dp),
             shape = RoundedCornerShape(18.dp),
             colors = ButtonDefaults.buttonColors(
-                contentColor = pomodoro.buttonColorPrimary
+                containerColor = pomodoro.buttonColorPrimary
             ),
             onClick = { onPlayPause(!isPlayPomodoro) }
         ) {
@@ -110,18 +113,18 @@ fun PomodoroContent(
         }
 
         Button(
-            modifier = Modifier.size(45.dp),
+            modifier = Modifier.size(60.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
-                contentColor = pomodoro.buttonColorSecond
+                containerColor = pomodoro.buttonColorSecond
             ),
+            contentPadding = PaddingValues(0.dp),
             onClick = {
-                onSpeedChange(
-                    if (speedTime == Speed.NORMAL) Speed.FAST else Speed.NORMAL
-                )
+                onSpeedChange(if (speedTime == Speed.NORMAL) Speed.FAST else Speed.NORMAL)
             }
         ) {
             Image(
+                modifier = Modifier.size(18.dp),
                 painter = painterResource(Res.drawable.ic_fast_foward),
                 contentDescription = ""
             )
