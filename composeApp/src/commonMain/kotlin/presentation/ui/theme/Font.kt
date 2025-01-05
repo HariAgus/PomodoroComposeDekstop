@@ -1,4 +1,4 @@
-package ui.theme
+package presentation.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
