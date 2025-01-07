@@ -4,7 +4,10 @@
 <img src="assets/Banner Udemy Compose Desktop.png"/>
 </p>
 
-The project I created is devoted to a course on Udemy with the theme Pomodoro for time management of useful activities.
+PomodoroComposeDesktop is a desktop-based application designed using Jetpack Compose for Desktop 
+technology to help users manage time with the Pomodoro technique. This technique breaks up work time
+into focused intervals (typically 25 minutes) called “Pomodoros”, interspersed with short breaks to 
+maintain productivity and concentration.
 
 ## Installation
 
