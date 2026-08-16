@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import data.Pomodoro
 import data.Speed
+import data.ThemeSettings
 import kotlinx.coroutines.delay
 import presentation.ui.theme.AppTheme
 import presentation.ui.theme.Theme
@@ -17,13 +18,14 @@ import utils.platform
 
 @Composable
 fun PomodoroApp() {
+    val themeSettings = remember { ThemeSettings() }
     var pomodoro by remember { mutableStateOf(Pomodoro.FOCUS) }
     var isPlayPomodoro by remember { mutableStateOf(false) }
     var isShowDialog by remember { mutableStateOf(false) }
     var timerLeft by remember { mutableStateOf(pomodoro.timer) }
     var speedTime by remember { mutableStateOf(Speed.NORMAL) }
     var pomodoroCount by remember { mutableStateOf(0) }
-    var selectedTheme by remember { mutableStateOf(Theme.SYSTEM) }
+    var selectedTheme by remember { mutableStateOf(themeSettings.getTheme()) }
 
     val isDark = when (selectedTheme) {
         Theme.LIGHT -> false
@@ -70,7 +72,10 @@ fun PomodoroApp() {
                 isDark = isDark,
                 onPlayPause = { isPlayPomodoro = it },
                 onSpeedChange = { speedTime = it },
-                onThemeSelected = { selectedTheme = it },
+                onThemeSelected = {
+                    selectedTheme = it
+                    themeSettings.saveTheme(it)
+                },
                 onDialogToggle = { isShowDialog = it }
             )
         } else {
@@ -84,7 +89,10 @@ fun PomodoroApp() {
                 isDark = isDark,
                 onPlayPause = { isPlayPomodoro = it },
                 onSpeedChange = { speedTime = it },
-                onThemeSelected = { selectedTheme = it },
+                onThemeSelected = {
+                    selectedTheme = it
+                    themeSettings.saveTheme(it)
+                },
                 onDialogToggle = { isShowDialog = it }
             )
         }
