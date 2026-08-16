@@ -15,9 +15,11 @@ import presentation.ui.theme.Theme
 import presentation.view.desktop.PomodoroDesktopLayout
 import presentation.view.mobile.PomodoroMobileLayout
 import utils.platform
+import utils.rememberAudioPlayer
 
 @Composable
 fun PomodoroApp() {
+    val audioPlayer = rememberAudioPlayer("window_seat.mp3")
     val themeSettings = remember { ThemeSettings() }
     var pomodoro by remember { mutableStateOf(Pomodoro.FOCUS) }
     var isPlayPomodoro by remember { mutableStateOf(false) }
@@ -31,6 +33,15 @@ fun PomodoroApp() {
         Theme.LIGHT -> false
         Theme.DARK -> true
         Theme.SYSTEM -> isSystemInDarkTheme()
+    }
+
+    LaunchedEffect(isPlayPomodoro, pomodoro) {
+        if (isPlayPomodoro && pomodoro == Pomodoro.FOCUS) {
+            audioPlayer.setLooping(true)
+            audioPlayer.play()
+        } else {
+            audioPlayer.pause()
+        }
     }
 
     LaunchedEffect(key1 = isPlayPomodoro) {

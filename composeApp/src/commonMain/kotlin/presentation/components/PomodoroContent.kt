@@ -40,7 +40,7 @@ fun PomodoroContent(
     isDark: Boolean,
     onPlayPause: (Boolean) -> Unit,
     onSpeedChange: (Speed) -> Unit,
-    onDialogToggle: (Boolean) -> Unit
+    onDialogToggle: (Boolean) -> Unit,
 ) {
     val textColor = pomodoro.getTextColor(isDark)
     val buttonColorPrimary = pomodoro.getButtonColorPrimary(isDark)
@@ -58,6 +58,7 @@ fun PomodoroContent(
             Image(
                 modifier = Modifier.size(22.dp),
                 painter = painterResource(pomodoro.icon),
+                colorFilter = ColorFilter.tint(textColor),
                 contentDescription = "Icon Pomodoro"
             )
 
