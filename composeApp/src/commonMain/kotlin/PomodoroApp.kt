@@ -88,7 +88,12 @@ fun PomodoroApp() {
                     themeSettings.saveTheme(it)
                 },
                 onDialogToggle = { isShowDialog = it }
-            )
+            ) { time ->
+                Pomodoro.FOCUS.timer = time
+                if (!isPlayPomodoro && pomodoro == Pomodoro.FOCUS) {
+                    timerLeft = time
+                }
+            }
         } else {
             PomodoroMobileLayout(
                 pomodoro = pomodoro,
@@ -105,7 +110,12 @@ fun PomodoroApp() {
                     themeSettings.saveTheme(it)
                 },
                 onDialogToggle = { isShowDialog = it }
-            )
+            ) { time ->
+                Pomodoro.FOCUS.timer = time
+                if (!isPlayPomodoro && pomodoro == Pomodoro.FOCUS) {
+                    timerLeft = time
+                }
+            }
         }
     }
 }

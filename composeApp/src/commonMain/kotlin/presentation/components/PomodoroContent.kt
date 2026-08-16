@@ -41,6 +41,7 @@ fun PomodoroContent(
     onPlayPause: (Boolean) -> Unit,
     onSpeedChange: (Speed) -> Unit,
     onDialogToggle: (Boolean) -> Unit,
+    onTimeSelected: (Int) -> Unit,
 ) {
     val textColor = pomodoro.getTextColor(isDark)
     val buttonColorPrimary = pomodoro.getButtonColorPrimary(isDark)
@@ -72,8 +73,39 @@ fun PomodoroContent(
         }
     }
 
+    if (pomodoro == Pomodoro.FOCUS) {
+        Row(
+            modifier = Modifier.padding(top = 24.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            listOf(25, 45, 60).forEach { time ->
+                val isSelected = pomodoro.timer == (time * 60)
+                Button(
+                    modifier = Modifier
+                        .padding(horizontal = 4.dp),
+                    enabled = !isPlayPomodoro,
+                    shape = RoundedCornerShape(100.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isSelected) buttonColorPrimary else buttonColorSecond,
+                        disabledContainerColor = if (isSelected) buttonColorPrimary.copy(alpha = 0.5f) else buttonColorSecond.copy(alpha = 0.5f)
+                    ),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                    onClick = { onTimeSelected(time * 60) }
+                ) {
+                    Text(
+                        text = "${time}m",
+                        fontFamily = GetFontPoppinsSemiBold(),
+                        fontSize = 14.sp,
+                        color = textColor.copy(alpha = if (isSelected) 1f else 0.5f),
+                    )
+                }
+            }
+        }
+    }
+
     Text(
-        text = String.format("%02d\n%02d", timerLeft / 60, timerLeft % 60),
+        modifier = Modifier.padding(top = if (pomodoro == Pomodoro.FOCUS) 0.dp else 24.dp),
+        text = "${(timerLeft / 60).toString().padStart(2, '0')}\n${(timerLeft % 60).toString().padStart(2, '0')}",
         fontFamily = GetFontPoppinsBold(),
         fontSize = 168.sp,
         textAlign = TextAlign.Center,
