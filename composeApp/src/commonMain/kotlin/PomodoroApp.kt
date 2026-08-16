@@ -1,5 +1,5 @@
 
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -9,6 +9,8 @@ import androidx.compose.runtime.setValue
 import data.Pomodoro
 import data.Speed
 import kotlinx.coroutines.delay
+import presentation.ui.theme.AppTheme
+import presentation.ui.theme.Theme
 import presentation.view.desktop.PomodoroDesktopLayout
 import presentation.view.mobile.PomodoroMobileLayout
 import utils.platform
@@ -20,49 +22,71 @@ fun PomodoroApp() {
     var isShowDialog by remember { mutableStateOf(false) }
     var timerLeft by remember { mutableStateOf(pomodoro.timer) }
     var speedTime by remember { mutableStateOf(Speed.NORMAL) }
+    var pomodoroCount by remember { mutableStateOf(0) }
+    var selectedTheme by remember { mutableStateOf(Theme.SYSTEM) }
+
+    val isDark = when (selectedTheme) {
+        Theme.LIGHT -> false
+        Theme.DARK -> true
+        Theme.SYSTEM -> isSystemInDarkTheme()
+    }
 
     LaunchedEffect(key1 = isPlayPomodoro) {
         while (isPlayPomodoro && timerLeft > 0) {
             delay(speedTime.speed)
             timerLeft--
 
-            if (timerLeft <= 0 && pomodoro == Pomodoro.FOCUS) {
-                pomodoro = Pomodoro.BREAK
-                timerLeft = pomodoro.timer
+            if (timerLeft <= 0) {
                 isPlayPomodoro = false
-            } else if (timerLeft <= 0 && pomodoro == Pomodoro.BREAK) {
-                pomodoro = Pomodoro.FOCUS
+                when (pomodoro) {
+                    Pomodoro.FOCUS -> {
+                        pomodoroCount++
+                        if (pomodoroCount % 4 == 0) {
+                            pomodoro = Pomodoro.LONG_BREAK
+                        } else {
+                            pomodoro = Pomodoro.BREAK
+                        }
+                    }
+                    Pomodoro.BREAK, Pomodoro.LONG_BREAK -> {
+                        pomodoro = Pomodoro.FOCUS
+                    }
+                }
                 timerLeft = pomodoro.timer
-                isPlayPomodoro = false
             }
         }
     }
 
     val platform = platform()
 
-        MaterialTheme {
-            if (platform.isDesktop) {
-                PomodoroDesktopLayout(
-                    pomodoro = pomodoro,
-                    isPlayPomodoro = isPlayPomodoro,
-                    timerLeft = timerLeft,
-                    speedTime = speedTime,
-                    isShowDialog = isShowDialog,
-                    onPlayPause = { isPlayPomodoro = it },
-                    onSpeedChange = { speedTime = it },
-                    onDialogToggle = { isShowDialog = it }
-                )
-            } else {
-                PomodoroMobileLayout(
-                    pomodoro = pomodoro,
-                    isPlayPomodoro = isPlayPomodoro,
-                    timerLeft = timerLeft,
-                    speedTime = speedTime,
-                    isShowDialog = isShowDialog,
-                    onPlayPause = { isPlayPomodoro = it },
-                    onSpeedChange = { speedTime = it },
-                    onDialogToggle = { isShowDialog = it }
-                )
-            }
+    AppTheme(theme = selectedTheme) {
+        if (platform.isDesktop) {
+            PomodoroDesktopLayout(
+                pomodoro = pomodoro,
+                isPlayPomodoro = isPlayPomodoro,
+                timerLeft = timerLeft,
+                speedTime = speedTime,
+                isShowDialog = isShowDialog,
+                selectedTheme = selectedTheme,
+                isDark = isDark,
+                onPlayPause = { isPlayPomodoro = it },
+                onSpeedChange = { speedTime = it },
+                onThemeSelected = { selectedTheme = it },
+                onDialogToggle = { isShowDialog = it }
+            )
+        } else {
+            PomodoroMobileLayout(
+                pomodoro = pomodoro,
+                isPlayPomodoro = isPlayPomodoro,
+                timerLeft = timerLeft,
+                speedTime = speedTime,
+                isShowDialog = isShowDialog,
+                selectedTheme = selectedTheme,
+                isDark = isDark,
+                onPlayPause = { isPlayPomodoro = it },
+                onSpeedChange = { speedTime = it },
+                onThemeSelected = { selectedTheme = it },
+                onDialogToggle = { isShowDialog = it }
+            )
         }
+    }
 }

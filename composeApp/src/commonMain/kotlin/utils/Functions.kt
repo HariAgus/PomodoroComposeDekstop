@@ -1,11 +1,17 @@
 package utils
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -26,20 +32,29 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import presentation.ui.theme.GetFontPoppinsMedium
 import presentation.ui.theme.GetFontPoppinsSemiBold
+import presentation.ui.theme.Theme
 
 @Composable
 fun CustomDialog(
     modifier: Modifier = Modifier,
     textColor: Color,
     backgroundColor: Color,
+    selectedTheme: Theme,
+    onThemeSelected: (Theme) -> Unit,
     onCloseDialog: () -> Unit
 ) {
+    val isDark = when (selectedTheme) {
+        Theme.LIGHT -> false
+        Theme.DARK -> true
+        Theme.SYSTEM -> isSystemInDarkTheme()
+    }
+
     Dialog(
         onDismissRequest = {}
     ) {
         Surface(
             modifier = modifier
-                .width(280.dp)
+                .width(320.dp)
                 .wrapContentHeight(),
             color = backgroundColor,
             shape = RoundedCornerShape(12.dp)
@@ -54,7 +69,7 @@ fun CustomDialog(
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = "About",
+                        text = "Settings",
                         fontSize = 16.sp,
                         fontFamily = GetFontPoppinsSemiBold(),
                         color = textColor
@@ -67,7 +82,7 @@ fun CustomDialog(
                                 onCloseDialog()
                             },
                         imageVector = Icons.Default.Close,
-                        colorFilter = ColorFilter.tint(color = Color.Black.copy(alpha = 0.5f)),
+                        colorFilter = ColorFilter.tint(color = textColor.copy(alpha = 0.5f)),
                         contentDescription = ""
                     )
                 }
@@ -77,7 +92,56 @@ fun CustomDialog(
                         .padding(vertical = 16.dp)
                         .fillMaxWidth(),
                     thickness = 1.dp,
-                    color = Color(0xFF471515).copy(alpha = 0.1f)
+                    color = textColor.copy(alpha = 0.1f)
+                )
+
+                Text(
+                    text = "Theme",
+                    fontFamily = GetFontPoppinsSemiBold(),
+                    fontSize = 12.sp,
+                    color = textColor,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(36.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Theme.entries.forEach { theme ->
+                        val isSelected = selectedTheme == theme
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                                .clickable { onThemeSelected(theme) }
+                                .border(
+                                    width = 1.dp,
+                                    color = if (isSelected) textColor else textColor.copy(alpha = 0.2f),
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                                .padding(4.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = theme.title,
+                                fontFamily = GetFontPoppinsMedium(),
+                                fontSize = 10.sp,
+                                color = if (isSelected) textColor else textColor.copy(alpha = 0.5f)
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                HorizontalDivider(
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .fillMaxWidth(),
+                    thickness = 1.dp,
+                    color = textColor.copy(alpha = 0.1f)
                 )
 
                 ContentAboutApp(

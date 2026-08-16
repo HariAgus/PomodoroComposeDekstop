@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import data.Pomodoro
 import data.Speed
 import presentation.components.PomodoroContent
+import presentation.ui.theme.Theme
 import utils.CustomDialog
 
 @Composable
@@ -21,14 +22,17 @@ fun PomodoroDesktopLayout(
     timerLeft: Int,
     speedTime: Speed,
     isShowDialog: Boolean,
+    selectedTheme: Theme,
+    isDark: Boolean,
     onPlayPause: (Boolean) -> Unit,
     onSpeedChange: (Speed) -> Unit,
+    onThemeSelected: (Theme) -> Unit,
     onDialogToggle: (Boolean) -> Unit
 ) {
     Row(
         modifier = modifier
             .fillMaxSize()
-            .background(color = pomodoro.backgroundColor),
+            .background(color = pomodoro.getBackgroundColor(isDark)),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -41,6 +45,7 @@ fun PomodoroDesktopLayout(
                 isPlayPomodoro = isPlayPomodoro,
                 timerLeft = timerLeft,
                 speedTime = speedTime,
+                isDark = isDark,
                 onPlayPause = onPlayPause,
                 onSpeedChange = onSpeedChange,
                 onDialogToggle = onDialogToggle
@@ -49,8 +54,10 @@ fun PomodoroDesktopLayout(
 
         if (isShowDialog) {
             CustomDialog(
-                textColor = pomodoro.textColor,
-                backgroundColor = pomodoro.backgroundColor,
+                textColor = pomodoro.getTextColor(isDark),
+                backgroundColor = pomodoro.getBackgroundColor(isDark),
+                selectedTheme = selectedTheme,
+                onThemeSelected = onThemeSelected,
                 onCloseDialog = { onDialogToggle(false) }
             )
         }
