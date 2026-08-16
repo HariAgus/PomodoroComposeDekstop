@@ -1,5 +1,6 @@
 package presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,14 +37,19 @@ fun PomodoroContent(
     isPlayPomodoro: Boolean,
     timerLeft: Int,
     speedTime: Speed,
+    isDark: Boolean,
     onPlayPause: (Boolean) -> Unit,
     onSpeedChange: (Speed) -> Unit,
     onDialogToggle: (Boolean) -> Unit
 ) {
+    val textColor = pomodoro.getTextColor(isDark)
+    val buttonColorPrimary = pomodoro.getButtonColorPrimary(isDark)
+    val buttonColorSecond = pomodoro.getButtonColorSecond(isDark)
+
     Surface(
-        color = pomodoro.buttonColorSecond,
+        color = buttonColorSecond,
         shape = RoundedCornerShape(100.dp),
-        border = BorderStroke(width = 1.dp, color = pomodoro.textColor),
+        border = BorderStroke(width = 1.dp, color = textColor),
     ) {
         Row(
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
@@ -59,7 +66,7 @@ fun PomodoroContent(
                 text = pomodoro.title,
                 fontFamily = GetFontPoppinsSemiBold(),
                 fontSize = 14.sp,
-                color = pomodoro.textColor
+                color = textColor
             )
         }
     }
@@ -70,7 +77,7 @@ fun PomodoroContent(
         fontSize = 168.sp,
         textAlign = TextAlign.Center,
         lineHeight = 148.sp,
-        color = pomodoro.textColor
+        color = textColor
     )
 
     Row(
@@ -80,7 +87,7 @@ fun PomodoroContent(
             modifier = Modifier.size(60.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = pomodoro.buttonColorSecond,
+                containerColor = buttonColorSecond,
             ),
             contentPadding = PaddingValues(0.dp),
             onClick = { onDialogToggle(!isPlayPomodoro) }
@@ -88,6 +95,7 @@ fun PomodoroContent(
             Image(
                 modifier = Modifier.size(18.dp),
                 painter = painterResource(Res.drawable.ic_menu),
+                colorFilter = ColorFilter.tint(textColor),
                 contentDescription = ""
             )
         }
@@ -97,7 +105,7 @@ fun PomodoroContent(
                 .padding(horizontal = 14.dp),
             shape = RoundedCornerShape(18.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = pomodoro.buttonColorPrimary
+                containerColor = buttonColorPrimary
             ),
             onClick = { onPlayPause(!isPlayPomodoro) }
         ) {
@@ -108,6 +116,7 @@ fun PomodoroContent(
                     else
                         Res.drawable.ic_pause
                 ),
+                colorFilter = ColorFilter.tint(textColor),
                 contentDescription = ""
             )
         }
@@ -116,7 +125,7 @@ fun PomodoroContent(
             modifier = Modifier.size(60.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = pomodoro.buttonColorSecond
+                containerColor = buttonColorSecond
             ),
             contentPadding = PaddingValues(0.dp),
             onClick = {
@@ -126,18 +135,22 @@ fun PomodoroContent(
             Image(
                 modifier = Modifier.size(18.dp),
                 painter = painterResource(Res.drawable.ic_fast_foward),
+                colorFilter = ColorFilter.tint(textColor),
                 contentDescription = ""
             )
         }
     }
 
-    if (speedTime == Speed.FAST) {
+    AnimatedVisibility(
+        visible = speedTime == Speed.FAST
+    ) {
         Text(
             modifier = Modifier.padding(top = 16.dp),
             text = "Speed is Fast",
             fontFamily = GetFontPoppinsMedium(),
-            color = pomodoro.textColor.copy(alpha = 0.5f),
+            color = textColor.copy(alpha = 0.5f),
             fontSize = 12.sp
         )
     }
+
 }
