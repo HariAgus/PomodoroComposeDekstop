@@ -12,11 +12,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.Pomodoro
@@ -40,7 +42,9 @@ fun PomodoroContent(
     isDark: Boolean,
     onPlayPause: (Boolean) -> Unit,
     onSpeedChange: (Speed) -> Unit,
-    onDialogToggle: (Boolean) -> Unit
+    onDialogToggle: (Boolean) -> Unit,
+    onTimeSelected: (Int) -> Unit,
+    onReset: () -> Unit,
 ) {
     val textColor = pomodoro.getTextColor(isDark)
     val buttonColorPrimary = pomodoro.getButtonColorPrimary(isDark)
@@ -58,6 +62,7 @@ fun PomodoroContent(
             Image(
                 modifier = Modifier.size(22.dp),
                 painter = painterResource(pomodoro.icon),
+                colorFilter = ColorFilter.tint(textColor),
                 contentDescription = "Icon Pomodoro"
             )
 
@@ -71,8 +76,39 @@ fun PomodoroContent(
         }
     }
 
+    if (pomodoro == Pomodoro.FOCUS) {
+        Row(
+            modifier = Modifier.padding(top = 24.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            listOf(25, 45, 60).forEach { time ->
+                val isSelected = pomodoro.timer == (time * 60)
+                Button(
+                    modifier = Modifier
+                        .padding(horizontal = 4.dp),
+                    enabled = !isPlayPomodoro,
+                    shape = RoundedCornerShape(100.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isSelected) buttonColorPrimary else buttonColorSecond,
+                        disabledContainerColor = if (isSelected) buttonColorPrimary.copy(alpha = 0.5f) else buttonColorSecond.copy(alpha = 0.5f)
+                    ),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                    onClick = { onTimeSelected(time * 60) }
+                ) {
+                    Text(
+                        text = "${time}m",
+                        fontFamily = GetFontPoppinsSemiBold(),
+                        fontSize = 14.sp,
+                        color = textColor.copy(alpha = if (isSelected) 1f else 0.5f),
+                    )
+                }
+            }
+        }
+    }
+
     Text(
-        text = String.format("%02d\n%02d", timerLeft / 60, timerLeft % 60),
+        modifier = Modifier.padding(top = if (pomodoro == Pomodoro.FOCUS) 0.dp else 24.dp),
+        text = "${(timerLeft / 60).toString().padStart(2, '0')}\n${(timerLeft % 60).toString().padStart(2, '0')}",
         fontFamily = GetFontPoppinsBold(),
         fontSize = 168.sp,
         textAlign = TextAlign.Center,
@@ -151,6 +187,23 @@ fun PomodoroContent(
             color = textColor.copy(alpha = 0.5f),
             fontSize = 12.sp
         )
+    }
+
+    AnimatedVisibility(
+        visible = timerLeft != pomodoro.timer
+    ) {
+        TextButton(
+            modifier = Modifier.padding(top = 8.dp),
+            onClick = onReset
+        ) {
+            Text(
+                text = "Reset Timer",
+                fontFamily = GetFontPoppinsMedium(),
+                color = textColor.copy(alpha = 0.7f),
+                fontSize = 14.sp,
+                textDecoration = TextDecoration.Underline
+            )
+        }
     }
 
 }
