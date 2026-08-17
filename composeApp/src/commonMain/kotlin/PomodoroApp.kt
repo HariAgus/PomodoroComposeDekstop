@@ -87,13 +87,18 @@ fun PomodoroApp() {
                     selectedTheme = it
                     themeSettings.saveTheme(it)
                 },
-                onDialogToggle = { isShowDialog = it }
-            ) { time ->
-                Pomodoro.FOCUS.timer = time
-                if (!isPlayPomodoro && pomodoro == Pomodoro.FOCUS) {
-                    timerLeft = time
+                onDialogToggle = { isShowDialog = it },
+                onTimeSelected = { time ->
+                    Pomodoro.FOCUS.timer = time
+                    if (!isPlayPomodoro && pomodoro == Pomodoro.FOCUS) {
+                        timerLeft = time
+                    }
+                },
+                onReset = {
+                    isPlayPomodoro = false
+                    timerLeft = pomodoro.timer
                 }
-            }
+            )
         } else {
             PomodoroMobileLayout(
                 pomodoro = pomodoro,
@@ -109,13 +114,18 @@ fun PomodoroApp() {
                     selectedTheme = it
                     themeSettings.saveTheme(it)
                 },
-                onDialogToggle = { isShowDialog = it }
-            ) { time ->
-                Pomodoro.FOCUS.timer = time
-                if (!isPlayPomodoro && pomodoro == Pomodoro.FOCUS) {
-                    timerLeft = time
+                onDialogToggle = { isShowDialog = it },
+                onTimeSelected = { time ->
+                    Pomodoro.FOCUS.timer = time
+                    if (!isPlayPomodoro && pomodoro == Pomodoro.FOCUS) {
+                        timerLeft = time
+                    }
+                },
+                onReset = {
+                    isPlayPomodoro = false
+                    timerLeft = pomodoro.timer
                 }
-            }
+            )
         }
     }
 }

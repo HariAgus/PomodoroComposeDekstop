@@ -30,6 +30,7 @@ fun PomodoroMobileLayout(
     onThemeSelected: (Theme) -> Unit,
     onDialogToggle: (Boolean) -> Unit,
     onTimeSelected: (Int) -> Unit,
+    onReset: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -52,7 +53,8 @@ fun PomodoroMobileLayout(
                 onPlayPause = onPlayPause,
                 onSpeedChange = onSpeedChange,
                 onDialogToggle = onDialogToggle,
-                onTimeSelected = onTimeSelected
+                onTimeSelected = onTimeSelected,
+                onReset = onReset
             )
         }
 

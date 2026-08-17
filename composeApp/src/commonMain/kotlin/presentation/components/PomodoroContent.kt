@@ -12,11 +12,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.Pomodoro
@@ -42,6 +44,7 @@ fun PomodoroContent(
     onSpeedChange: (Speed) -> Unit,
     onDialogToggle: (Boolean) -> Unit,
     onTimeSelected: (Int) -> Unit,
+    onReset: () -> Unit,
 ) {
     val textColor = pomodoro.getTextColor(isDark)
     val buttonColorPrimary = pomodoro.getButtonColorPrimary(isDark)
@@ -184,6 +187,23 @@ fun PomodoroContent(
             color = textColor.copy(alpha = 0.5f),
             fontSize = 12.sp
         )
+    }
+
+    AnimatedVisibility(
+        visible = timerLeft != pomodoro.timer
+    ) {
+        TextButton(
+            modifier = Modifier.padding(top = 8.dp),
+            onClick = onReset
+        ) {
+            Text(
+                text = "Reset Timer",
+                fontFamily = GetFontPoppinsMedium(),
+                color = textColor.copy(alpha = 0.7f),
+                fontSize = 14.sp,
+                textDecoration = TextDecoration.Underline
+            )
+        }
     }
 
 }

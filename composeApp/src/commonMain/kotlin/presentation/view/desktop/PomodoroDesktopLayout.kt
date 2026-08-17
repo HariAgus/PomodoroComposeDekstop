@@ -29,6 +29,7 @@ fun PomodoroDesktopLayout(
     onThemeSelected: (Theme) -> Unit,
     onDialogToggle: (Boolean) -> Unit,
     onTimeSelected: (Int) -> Unit,
+    onReset: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -50,7 +51,8 @@ fun PomodoroDesktopLayout(
                 onPlayPause = onPlayPause,
                 onSpeedChange = onSpeedChange,
                 onDialogToggle = onDialogToggle,
-                onTimeSelected = onTimeSelected
+                onTimeSelected = onTimeSelected,
+                onReset = onReset
             )
         }
 
