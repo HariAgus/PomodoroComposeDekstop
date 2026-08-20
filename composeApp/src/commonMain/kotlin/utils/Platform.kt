@@ -9,3 +9,5 @@ expect fun platform(): Platform
 expect fun currentTimeMillis(): Long
 
 expect fun toggleBackgroundTimer(isEnabled: Boolean)
+
+expect fun toggleKeepScreenOn(isEnabled: Boolean)

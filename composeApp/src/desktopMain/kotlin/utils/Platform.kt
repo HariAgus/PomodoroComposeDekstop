@@ -12,3 +12,7 @@ actual fun currentTimeMillis(): Long = System.currentTimeMillis()
 actual fun toggleBackgroundTimer(isEnabled: Boolean) {
     // No-op for desktop
 }
+
+actual fun toggleKeepScreenOn(isEnabled: Boolean) {
+    // No-op for desktop
+}

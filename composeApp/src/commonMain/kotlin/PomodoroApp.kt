@@ -18,6 +18,7 @@ import utils.currentTimeMillis
 import utils.platform
 import utils.rememberAudioPlayer
 import utils.toggleBackgroundTimer
+import utils.toggleKeepScreenOn
 
 @Composable
 fun PomodoroApp() {
@@ -39,6 +40,7 @@ fun PomodoroApp() {
 
     LaunchedEffect(isPlayPomodoro) {
         toggleBackgroundTimer(isPlayPomodoro)
+        toggleKeepScreenOn(isPlayPomodoro)
     }
 
     LaunchedEffect(isPlayPomodoro, pomodoro) {

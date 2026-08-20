@@ -1,8 +1,10 @@
 package utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.view.WindowManager
 import com.haw.pomodoro.PomodoroService
 
 actual fun platform(): Platform {
@@ -15,6 +17,7 @@ actual fun platform(): Platform {
 actual fun currentTimeMillis(): Long = System.currentTimeMillis()
 
 var appContext: Context? = null
+var currentActivity: Activity? = null
 
 actual fun toggleBackgroundTimer(isEnabled: Boolean) {
     appContext?.let { context ->
@@ -27,6 +30,18 @@ actual fun toggleBackgroundTimer(isEnabled: Boolean) {
             }
         } else {
             context.stopService(intent)
+        }
+    }
+}
+
+actual fun toggleKeepScreenOn(isEnabled: Boolean) {
+    currentActivity?.let { activity ->
+        activity.runOnUiThread {
+            if (isEnabled) {
+                activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            } else {
+                activity.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            }
         }
     }
 }
