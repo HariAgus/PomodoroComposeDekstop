@@ -18,12 +18,13 @@ actual fun currentTimeMillis(): Long = System.currentTimeMillis()
 
 var appContext: Context? = null
 var currentActivity: Activity? = null
+var isAppVisible = true
 
 actual fun toggleBackgroundTimer(isEnabled: Boolean) {
     appContext?.let { context ->
         val intent = Intent(context, PomodoroService::class.java)
         if (isEnabled) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (!isAppVisible && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(intent)
             } else {
                 context.startService(intent)
@@ -43,5 +44,16 @@ actual fun toggleKeepScreenOn(isEnabled: Boolean) {
                 activity.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
         }
+    }
+}
+
+actual fun updateNotification(title: String, content: String) {
+    appContext?.let { context ->
+        val intent = Intent(context, PomodoroService::class.java).apply {
+            action = "UPDATE_NOTIFICATION"
+            putExtra("EXTRA_TITLE", title)
+            putExtra("EXTRA_CONTENT", content)
+        }
+        context.startService(intent)
     }
 }

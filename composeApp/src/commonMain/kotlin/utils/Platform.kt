@@ -11,3 +11,5 @@ expect fun currentTimeMillis(): Long
 expect fun toggleBackgroundTimer(isEnabled: Boolean)
 
 expect fun toggleKeepScreenOn(isEnabled: Boolean)
+
+expect fun updateNotification(title: String, content: String)

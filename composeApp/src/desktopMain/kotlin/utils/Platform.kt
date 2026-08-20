@@ -16,3 +16,7 @@ actual fun toggleBackgroundTimer(isEnabled: Boolean) {
 actual fun toggleKeepScreenOn(isEnabled: Boolean) {
     // No-op for desktop
 }
+
+actual fun updateNotification(title: String, content: String) {
+    // No-op for desktop
+}

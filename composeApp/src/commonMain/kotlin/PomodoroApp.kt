@@ -19,6 +19,7 @@ import utils.platform
 import utils.rememberAudioPlayer
 import utils.toggleBackgroundTimer
 import utils.toggleKeepScreenOn
+import utils.updateNotification
 
 @Composable
 fun PomodoroApp() {
@@ -64,6 +65,9 @@ fun PomodoroApp() {
 
                 if (newTimerLeft != timerLeft) {
                     timerLeft = newTimerLeft
+                    val minutes = (timerLeft / 60).toString().padStart(2, '0')
+                    val seconds = (timerLeft % 60).toString().padStart(2, '0')
+                    updateNotification(pomodoro.title, "$minutes:$seconds remaining")
                 }
 
                 if (timerLeft <= 0) {
