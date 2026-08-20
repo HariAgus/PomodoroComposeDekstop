@@ -14,8 +14,12 @@ import presentation.ui.theme.AppTheme
 import presentation.ui.theme.Theme
 import presentation.view.desktop.PomodoroDesktopLayout
 import presentation.view.mobile.PomodoroMobileLayout
+import utils.currentTimeMillis
 import utils.platform
 import utils.rememberAudioPlayer
+import utils.toggleBackgroundTimer
+import utils.toggleKeepScreenOn
+import utils.updateNotification
 
 @Composable
 fun PomodoroApp() {
@@ -35,6 +39,11 @@ fun PomodoroApp() {
         Theme.SYSTEM -> isSystemInDarkTheme()
     }
 
+    LaunchedEffect(isPlayPomodoro) {
+        toggleBackgroundTimer(isPlayPomodoro)
+        toggleKeepScreenOn(isPlayPomodoro)
+    }
+
     LaunchedEffect(isPlayPomodoro, pomodoro) {
         if (isPlayPomodoro && pomodoro == Pomodoro.FOCUS) {
             audioPlayer.setLooping(true)
@@ -44,27 +53,40 @@ fun PomodoroApp() {
         }
     }
 
-    LaunchedEffect(key1 = isPlayPomodoro) {
-        while (isPlayPomodoro && timerLeft > 0) {
-            delay(speedTime.speed)
-            timerLeft--
+    LaunchedEffect(isPlayPomodoro, pomodoro, speedTime) {
+        if (isPlayPomodoro) {
+            val startTime = currentTimeMillis()
+            val startTimerValue = timerLeft
+            while (isPlayPomodoro && timerLeft > 0) {
+                delay(100)
+                val current = currentTimeMillis()
+                val elapsed = ((current - startTime) / speedTime.speed).toInt()
+                val newTimerLeft = (startTimerValue - elapsed).coerceAtLeast(0)
 
-            if (timerLeft <= 0) {
-                isPlayPomodoro = false
-                when (pomodoro) {
-                    Pomodoro.FOCUS -> {
-                        pomodoroCount++
-                        if (pomodoroCount % 4 == 0) {
-                            pomodoro = Pomodoro.LONG_BREAK
-                        } else {
-                            pomodoro = Pomodoro.BREAK
+                if (newTimerLeft != timerLeft) {
+                    timerLeft = newTimerLeft
+                    val minutes = (timerLeft / 60).toString().padStart(2, '0')
+                    val seconds = (timerLeft % 60).toString().padStart(2, '0')
+                    updateNotification(pomodoro.title, "$minutes:$seconds remaining")
+                }
+
+                if (timerLeft <= 0) {
+                    isPlayPomodoro = false
+                    when (pomodoro) {
+                        Pomodoro.FOCUS -> {
+                            pomodoroCount++
+                            if (pomodoroCount % 4 == 0) {
+                                pomodoro = Pomodoro.LONG_BREAK
+                            } else {
+                                pomodoro = Pomodoro.BREAK
+                            }
+                        }
+                        Pomodoro.BREAK, Pomodoro.LONG_BREAK -> {
+                            pomodoro = Pomodoro.FOCUS
                         }
                     }
-                    Pomodoro.BREAK, Pomodoro.LONG_BREAK -> {
-                        pomodoro = Pomodoro.FOCUS
-                    }
+                    timerLeft = pomodoro.timer
                 }
-                timerLeft = pomodoro.timer
             }
         }
     }

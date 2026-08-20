@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.haw.pomodoro.BuildKonfig
 import presentation.ui.theme.GetFontPoppinsMedium
 import presentation.ui.theme.GetFontPoppinsSemiBold
 import presentation.ui.theme.Theme
@@ -152,7 +153,7 @@ fun CustomDialog(
 
                 ContentAboutApp(
                     title = "Version",
-                    content = "1.0.0",
+                    content = BuildKonfig.VERSION_NAME,
                     textColor = textColor
                 )
             }

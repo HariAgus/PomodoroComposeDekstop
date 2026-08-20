@@ -6,3 +6,17 @@ actual fun platform(): Platform {
             get() = true
     }
 }
+
+actual fun currentTimeMillis(): Long = System.currentTimeMillis()
+
+actual fun toggleBackgroundTimer(isEnabled: Boolean) {
+    // No-op for desktop
+}
+
+actual fun toggleKeepScreenOn(isEnabled: Boolean) {
+    // No-op for desktop
+}
+
+actual fun updateNotification(title: String, content: String) {
+    // No-op for desktop
+}
