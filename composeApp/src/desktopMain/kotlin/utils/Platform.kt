@@ -6,3 +6,9 @@ actual fun platform(): Platform {
             get() = true
     }
 }
+
+actual fun currentTimeMillis(): Long = System.currentTimeMillis()
+
+actual fun toggleBackgroundTimer(isEnabled: Boolean) {
+    // No-op for desktop
+}
