@@ -25,9 +25,11 @@ fun PomodoroMobileLayout(
     isShowDialog: Boolean,
     selectedTheme: Theme,
     isDark: Boolean,
+    isMusicEnabled: Boolean,
     onPlayPause: (Boolean) -> Unit,
     onSpeedChange: (Speed) -> Unit,
     onThemeSelected: (Theme) -> Unit,
+    onMusicToggled: (Boolean) -> Unit,
     onDialogToggle: (Boolean) -> Unit,
     onTimeSelected: (Int) -> Unit,
     onReset: () -> Unit,
@@ -63,7 +65,9 @@ fun PomodoroMobileLayout(
                 textColor = pomodoro.getTextColor(isDark),
                 backgroundColor = pomodoro.getBackgroundColor(isDark),
                 selectedTheme = selectedTheme,
+                isMusicEnabled = isMusicEnabled,
                 onThemeSelected = onThemeSelected,
+                onMusicToggled = onMusicToggled,
                 onCloseDialog = { onDialogToggle(false) }
             )
         }

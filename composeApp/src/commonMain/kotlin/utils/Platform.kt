@@ -13,3 +13,7 @@ expect fun toggleBackgroundTimer(isEnabled: Boolean)
 expect fun toggleKeepScreenOn(isEnabled: Boolean)
 
 expect fun updateNotification(title: String, content: String)
+
+expect fun notifySessionFinished(title: String, content: String)
+
+expect fun vibrate()

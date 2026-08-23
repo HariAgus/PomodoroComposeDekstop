@@ -22,8 +22,11 @@ class PomodoroService : Service() {
 
     companion object {
         const val CHANNEL_ID = "pomodoro_timer_channel"
+        const val ALERT_CHANNEL_ID = "pomodoro_alert_channel"
         const val NOTIFICATION_ID = 1
+        const val ALERT_NOTIFICATION_ID = 2
         const val ACTION_UPDATE = "UPDATE_NOTIFICATION"
+        const val ACTION_SESSION_FINISHED = "SESSION_FINISHED"
         const val ACTION_SET_VISIBILITY = "SET_VISIBILITY"
         const val EXTRA_TITLE = "EXTRA_TITLE"
         const val EXTRA_CONTENT = "EXTRA_CONTENT"
@@ -48,6 +51,11 @@ class PomodoroService : Service() {
                 if (!isAppVisible) {
                     updateNotification(lastTitle, lastContent)
                 }
+            }
+            ACTION_SESSION_FINISHED -> {
+                val title = intent.getStringExtra(EXTRA_TITLE) ?: "Pomodoro"
+                val content = intent.getStringExtra(EXTRA_CONTENT) ?: "Session finished!"
+                showFinishedNotification(title, content)
             }
             ACTION_SET_VISIBILITY -> {
                 isAppVisible = intent.getBooleanExtra(EXTRA_VISIBLE, true)
@@ -92,6 +100,18 @@ class PomodoroService : Service() {
         }
     }
 
+    private fun showFinishedNotification(title: String, content: String) {
+        val notification = NotificationCompat.Builder(this, ALERT_CHANNEL_ID)
+            .setContentTitle(title)
+            .setContentText(content)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setDefaults(Notification.DEFAULT_ALL)
+            .setAutoCancel(true)
+            .build()
+        notificationManager.notify(ALERT_NOTIFICATION_ID, notification)
+    }
+
     private fun createNotification(title: String, contentText: String): Notification {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
@@ -111,6 +131,15 @@ class PomodoroService : Service() {
                 NotificationManager.IMPORTANCE_LOW
             )
             notificationManager.createNotificationChannel(serviceChannel)
+
+            val alertChannel = NotificationChannel(
+                ALERT_CHANNEL_ID,
+                "Pomodoro Alert Channel",
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Used for session finish alerts"
+            }
+            notificationManager.createNotificationChannel(alertChannel)
         }
     }
 }

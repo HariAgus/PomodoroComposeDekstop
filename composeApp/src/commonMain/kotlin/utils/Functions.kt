@@ -3,7 +3,6 @@ package utils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +20,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,15 +42,11 @@ fun CustomDialog(
     textColor: Color,
     backgroundColor: Color,
     selectedTheme: Theme,
+    isMusicEnabled: Boolean,
     onThemeSelected: (Theme) -> Unit,
+    onMusicToggled: (Boolean) -> Unit,
     onCloseDialog: () -> Unit
 ) {
-    val isDark = when (selectedTheme) {
-        Theme.LIGHT -> false
-        Theme.DARK -> true
-        Theme.SYSTEM -> isSystemInDarkTheme()
-    }
-
     Dialog(
         onDismissRequest = {}
     ) {
@@ -133,6 +130,33 @@ fun CustomDialog(
                             )
                         }
                     }
+                }
+
+                Row(
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Music",
+                        fontFamily = GetFontPoppinsSemiBold(),
+                        fontSize = 12.sp,
+                        color = textColor
+                    )
+
+                    Switch(
+                        checked = isMusicEnabled,
+                        onCheckedChange = { onMusicToggled(it) },
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = textColor,
+                            checkedTrackColor = textColor.copy(alpha = 0.5f),
+                            uncheckedThumbColor = textColor.copy(alpha = 0.5f),
+                            uncheckedTrackColor = textColor.copy(alpha = 0.1f),
+                            uncheckedBorderColor = Color.Transparent
+                        )
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))

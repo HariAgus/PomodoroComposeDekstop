@@ -14,7 +14,8 @@ enum class Pomodoro(
 
     FOCUS(
         title = "Focus",
-        timer = 1500,
+        // timer = 1500,
+         timer = 10,
         icon = Res.drawable.ic_focus,
     ),
 
